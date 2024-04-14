@@ -3,6 +3,8 @@ Learning Pathway of Computer Vision - Started April 2024 - Featured Udacity
 
 *Github Computer Vision Exercise Repository:* [UDACITY COMPUTER VISION](https://github.com/udacity/cd0360-Introduction-to-Computer-Vision)
 
+## **Lesson 1: Computer Vision Pipeline**
+
 ### 1. Pattern Recognition
 
 **Definition:** Pattern recognition in computer vision is a fundamental concept that involves the automatic detection, interpretation, and classification of patterns or objects within images or videos. It's a process through which a computer system learns to recognize patterns or features in visual data, similar to how humans perceive and interpret visual information.
@@ -47,13 +49,13 @@ A computer vision pipeline is a series of steps that most computer vision applic
 
 **Standardizing Data**
 
-***Pre-processing images*** is all about standardizing input images so that you can move further along the pipeline and analyze images in the same way. In machine learning tasks, the pre-processing step is often one of the most important.
+> ***Pre-processing images*** is all about standardizing input images so that you can move further along the pipeline and analyze images in the same way. In machine learning tasks, the pre-processing step is often one of the most important.
 
 For example, imagine that you've created a simple algorithm to distinguish between stop signs and other traffic lights.
 
 ### 4. Training a model
 
-***Training a Neural Network***
+> ***Training a Neural Network***
 
 To train a computer vision neural network, we typically provide sets of labeled images, which we can compare to the predicted output label or recognition measurements. The neural network then monitors any errors it makes (by comparing the correct label to the output label) and corrects for them by modifying how it finds and prioritizes patterns and differences among the image data. Eventually, given enough labeled data, the model should be able to characterize any new, unlabeled, image data it sees!
 
@@ -83,7 +85,7 @@ Here's a simplified overview of the image formation process:
 
 ### 6. Image as Grids and Pixels
 
-***Images as Numerical Data***
+> ***Images as Numerical Data***
 
 Every pixel in an image is just a numerical value and, we can also change these pixel values. We can multiply every single one by a scalar to change how bright the image is, we can shift each pixel value to the right, and many more operations!
 
@@ -121,17 +123,17 @@ It’s helpful to think of the depth as three stacked, 2D color layers. One laye
 
 Link: [Learning: Computer Vision 2]()
 
-***OpenCV***
+> ***OpenCV***
 
 **OpenCV** is a popular computer vision library that has many built-in tools for image analysis and understanding!
 
 Note: In the example above and in later examples, I'm using my own Jupyter notebook and sets of images stored on my personal computer. You're encouraged to set up a similar environment and use images of your own to practice! You'll also be given some code quizzes (coming up next), with images provided, to practice these techniques.
 
-***Why BGR instead of RGB?***
+> ***Why BGR instead of RGB?***
 
 **OpenCV** reads in images in BGR format (instead of RGB) because when OpenCV was first being developed, BGR color format was popular among camera manufacturers and image software providers. The red channel was considered one of the least important color channels, so was listed last, and many bitmaps use BGR format for image storage. However, now the standard has changed and most image software and cameras use RGB format, which is why, in these examples, it's good practice to initially convert BGR images to RGB before analyzing or manipulating them.
 
-***Masking***
+> ***Masking***
 
 In the context of computer vision and image processing, a **mask** refers to a binary image or a matrix where certain pixels are marked or highlighted to define regions of interest or to apply specific operations selectively. Masking, therefore, is the process of using such a mask to either isolate or highlight certain parts of an image for further processing or analysis.
 
@@ -185,7 +187,7 @@ Resources: 1700 day/night images at multiple location and multiple timing (Train
 
 ***Currently work in progress...***
 
-Task: Using the day/night image from the library, try separating the day and night image based on RGB and HSV.
+> Task: Using the day/night image from the library, try separating the day and night image based on RGB and HSV.
 
 ### 10. Labeled Data
 
@@ -197,13 +199,13 @@ A classifier takes in an image as input and should output a predicted_label that
 
 To check the accuracy of a classification model, we compare the predicted and true labels. If the true and predicted labels match, then we’ve classified the image correctly! Sometimes the labels do not match, which means we’ve misclassified an image.
 
-***Accuracy***
+> ***Accuracy***
 
 After looking at many images, the accuracy of a classifier is defined as the number of correctly classified images (for which the predicted_label matches the true label) divided by the total number of images. So, say we tried to classify 100 images total, and we correctly classified 81 of them. We’d have **0.81** or **81%** accuracy!
 
 We can tell a computer to check the accuracy of a classifier only when we have these predicted and true labels to compare.
 
-***Numberical Labels***
+> ***Numberical Labels***
 
 It’s good practice to use numerical labels instead of strings or categorical labels. They're easier to track and compare. So, for our day and night, binary class example, instead of "day" and "night" labels we’ll use the numerical labels: 0 for night and 1 for day.
 
@@ -215,7 +217,7 @@ Example (Binary):
 
 **Features** refer to distinctive and identifiable characteristics or patterns present in an image. These features are often used as a basis for various tasks such as object detection, recognition, matching, and tracking. Features are essentially local regions or points within an image that contain meaningful information, which can be used to describe and distinguish objects or patterns.
 
-***Distinguishing and Measurable Traits***
+> ***Distinguishing and Measurable Traits***
 
 When you approach a classification challenge, you may ask yourself: how can I tell these images apart? What traits do these images have that differentiate them, and how can I write code to represent their differences? Adding on to that, how can I ignore irrelevant or overly similar parts of these images?
 
@@ -241,11 +243,11 @@ Here are some real-world examples of features in computer vision applications:
 
 11.7. **Gesture Recognition in Human-Computer Interaction**: In gesture recognition systems, features such as hand shape, motion trajectories, and finger positions are extracted from video streams or depth sensor data to recognize and interpret human gestures. These features enable natural and intuitive interaction with computers, gaming consoles, and other devices.
 
-***Standardizing and Pre-processing***
+> ***Standardizing and Pre-processing***
 
 Standardizing and preprocessing are essential steps in preparing data for machine learning and data analysis tasks, including in the field of computer vision. These steps involve transforming and normalizing the data to improve its quality, consistency, and suitability for the intended analysis or modeling.
 
-***Numerical vs. Categorical***
+> ***Numerical vs. Categorical***
 
 Let's learn a little more about labels. After visualizing the image data, you'll have seen that each image has an attached label: "day" or "night," and these are known as categorical values.
 
@@ -282,13 +284,13 @@ Since only the fourth value is set to 1 ("on"), while the others are 0 ("off"), 
 
 ### Python Practice Notebook 6: Standardizing Day and Night Images
 
-Link: [Learning: Computer Vision 7]()
+Link: [Learning: Computer Vision 6]()
 
 Resources: 1700 day/night images at multiple location and multiple timing (Train - Test: 40:60)
 
 ***Currently work in progress...***
 
-Task: Build a classifier that can accurately label these images as day or night, and that relies on finding distinguishing features between the two types of images.
+> Task: Using the day/night image from the library, try separating the day and night image based on RGB and HSV.
 
 ### 12. Average Brightness
 
@@ -299,3 +301,172 @@ Here were the steps we took to extract the average brightness of an image.
 - Divide that brightness sum by the area of the image, which is just the width times the height.
 
 This gave us one value: the average brightness or the average Value of that image.
+
+### Python Practice Notebook 7: Standardizing Day and Night Images
+
+Link: [Learning: Computer Vision 7]()
+
+Resources: 1700 day/night images at multiple location and multiple timing (Train - Test: 40:60)
+
+***Currently work in progress...***
+
+> Task: Using the day/night image from the library, try separating the day and night image based on RGB and HSV.
+
+Work tasks:
+
+- Find the average brightness of the images.
+- Create a classifier model to find out the value boundary for day and night
+- Test the average brightness calculation function on an image
+
+### Python Practice Notebook 8: Accuracy and Misclassification
+
+Link: [Learning: Computer Vision 8]()
+
+Resources: 1700 day/night images at multiple location and multiple timing (Train - Test: 40:60)
+
+***Currently work in progress...***
+
+> Task: Using the day/night image from the library, try separating the day and night image based on RGB and HSV.
+
+Work tasks:
+
+- Iterate through the whole test set to get the prediction result
+- Take the prediction result to calculate the accuracy of the day/night classification model.
+
+### End of project
+
+*Review and the Computer Vision Pipeline*
+
+In this lesson, you’ve really made it through a lot of material, from learning how images are represented to programming an image classifier!
+
+You approached the classification challenge by completing each step of the Computer Vision Pipeline step-by-step. First by looking at the classification problem, visualizing the image data you were working with, and planning out a complete approach to a solution.
+
+The steps include pre-processing images so that they could be further analyzed in the same way, this included changing color spaces. Then we moved on to feature extraction, in which you decided on distinguishing traits in each class of image, and tried to isolate those features! You may note that skipped the pipeline step of "Selecting Areas of Interest," and this is because we focused on classifying an image as a whole and did not need to break it up into different segments, but we'll see where this step can be useful later in this course.
+
+Finally, you created a complete classifier that output a label or a class for a given image, and analyzed your classification model to see its accuracy!
+
+Project for this lesson: [Day and Night Classifier Model]()
+
+## Lesson 2: Filters and Detection
+
+### 13. Filters and Finding Edges
+
+In computer vision, a **filter** refers to a mathematical operation or convolutional kernel applied to an image to perform various types of image processing tasks such as smoothing, sharpening, edge detection, or feature extraction. Filters are commonly used to enhance or extract certain features or characteristics from images, making them more suitable for subsequent analysis or interpretation.
+
+Here's a brief overview of some common types of filters used in computer vision:
+
+13.1. **Smoothing Filters**: Smoothing filters are used to reduce noise and blur images by averaging pixel values within a neighborhood. Examples include the Gaussian filter, which applies a weighted average based on a Gaussian distribution, and the median filter, which replaces each pixel value with the median value in its neighborhood.
+
+13.2. **Edge Detection Filters**: Edge detection filters highlight the boundaries between regions of different intensity or color in an image. Examples include the Sobel filter, which calculates the gradient of the image intensity in both the horizontal and vertical directions, and the Canny edge detector, which uses multiple stages of processing to detect edges with high precision and low false positives.
+
+13.3. **Sharpening Filters**: Sharpening filters enhance the contrast and detail in an image by emphasizing edges and fine features. Examples include the Laplacian filter, which highlights regions of rapid intensity change, and the unsharp mask filter, which subtracts a blurred version of the image from the original to enhance edges.
+
+13.4. **Feature Extraction Filters**: Feature extraction filters are designed to detect specific patterns or structures in an image, such as corners, blobs, or texture patterns. Examples include the Harris corner detector, which identifies corner points based on local intensity variations, and the Gabor filter, which extracts texture features at different orientations and scales.
+
+13.5. **Frequency Domain Filters**: Frequency domain filters operate on the frequency components of an image, such as its Fourier transform. Examples include high-pass filters, which emphasize high-frequency components associated with edges and fine details, and low-pass filters, which smooth the image by removing high-frequency noise.
+
+Filters are typically applied to images using convolution, where the filter kernel is slid over the image and its values are multiplied with corresponding pixel values to compute the output at each location. Filters play a crucial role in many computer vision tasks, including image enhancement, feature detection, object recognition, and image segmentation.
+
+### 14. Frequency in Images
+
+We have an intuition of what frequency means when it comes to sound. High-frequency is a high pitched noise, like a bird chirp or violin. And low frequency sounds are low pitch, like a deep voice or a bass drum. For sound, frequency actually refers to how fast a sound wave is oscillating; oscillations are usually measured in cycles/s (Hz(opens in a new tab)), and high pitches and are made by high-frequency waves. Examples of low and high-frequency sound waves are pictured below. On the y-axis is amplitude, which is a measure of sound pressure that corresponds to the perceived loudness of a sound, and on the x-axis is time.
+
+> ***High and Low Frequency***
+
+Similarly, frequency in images is a rate of change. But, what does it means for an image to change? Well, images change in space, and a high frequency image is one where the intensity changes a lot. And the level of brightness changes quickly from one pixel to the next. A low frequency image may be one that is relatively uniform in brightness or changes very slowly. This is easiest to see in an example.
+
+Most images have both high-frequency and low-frequency components. In the image above, on the scarf and striped shirt, we have a high-frequency image pattern; this part changes very rapidly from one brightness to another. Higher up in this same image, we see parts of the sky and background that change very gradually, which is considered a smooth, low-frequency pattern.
+
+**High-frequency components also correspond to the edges of objects in images,** which can help us classify those objects.
+
+> ***Fourier Transform***
+
+The Fourier Transform (FT) is an important image processing tool that is used to decompose an image into its frequency components. The output of an FT represents the image in the frequency domain, while the input image is the spatial domain (x, y) equivalent. In the frequency domain image, each point represents a particular frequency contained in the spatial domain image. So, for images with a lot of high-frequency components (edges, corners, and stripes), there will be a number of points in the frequency domain at high frequency values.
+
+> ***Understanding Frequency in Images***
+
+#### Basic Concept
+
+In the realm of image processing and computer vision, "frequency" refers to the rate of change of intensity values in an image. It's similar to the concept of frequency in sound waves, but instead of audio pitches, it deals with changes in visual details.
+
+#### High and Low Frequency
+
+- High Frequency: High-frequency content in images refers to the edges and fine details where the intensity changes abruptly over a small area. These are often found at the boundaries of objects or within textures.
+- Low Frequency: Low-frequency content corresponds to smooth and slowly varying parts of the image, like open skies or solid-color backgrounds. These areas have minimal changes in intensity or color over large regions.
+
+#### Importance in Image Processing
+
+- Filtering: Understanding frequencies is crucial in image filtering. High-pass filters are used to enhance or detect edges (high-frequency components), while low-pass filters are used for blurring or noise reduction, focusing on low-frequency areas.
+- Compression: Image compression techniques often exploit frequency components. For example, JPEG compression removes high-frequency content to a degree, as the human eye is less sensitive to fine details.
+- Analysis: Frequency analysis is essential in many advanced image processing techniques, including feature extraction, edge detection, and texture analysis.
+Frequency Domain
+- The frequency content of an image can be analyzed using tools like the Fourier Transform, which converts the spatial representation of an image into a frequency representation. This is especially useful for filtering, compression, and noise reduction tasks.
+
+#### Summary
+
+In summary, frequency in images relates to the rate of change in intensity values. High-frequency elements represent rapid changes (like edges), while low-frequency elements correspond to gradual changes. The concept of frequency is fundamental in various image processing tasks, enabling effective manipulation and analysis of visual information.
+
+### Python Practice Notebook 8: Fourier Transforms
+
+Link: [Learning: Computer Vision 8]()
+
+Resources: [OpenCV Documentary](https://docs.opencv.org/3.0-beta/doc/py_tutorials/py_imgproc/py_transforms/py_fourier_transform/py_fourier_transform.html)
+
+> Task: Learn about the frequency in images, try testing the **Fourier Transforms**
+
+In this notebook, we will experiment the Fourier Transforms with 2 images
+
+- Image 1: Striped black and white, which image frequency transitions happen very often and sharply
+- Image 2: Pink image, no frequency changes at all
+
+### 15. High-pass Filters
+
+**High-pass filters**, also known as high-frequency filters, are image processing filters that emphasize the high-frequency components of an image while suppressing or attenuating the low-frequency components. These filters are commonly used in image processing and computer vision for tasks such as edge detection, sharpening, and noise reduction.
+
+> ***What are Edges***
+
+**Edges** are areas in an image where the intensity changes very quickly, and they often indicate object boundaries.
+
+> ***Convolution Kernels***
+
+**Convolution kernel**, also known simply as a kernel or filter, is a small matrix of weights that is applied to an input image using the mathematical operation known as convolution. Convolution kernels are fundamental to various image processing tasks, including filtering, feature extraction, and image transformation.
+
+> ***Edge Handling***
+
+Kernel convolution relies on centering a pixel and looking at its surrounding neighbors. So, what do you do if there are no surrounding pixels like on an image corner or edge? Well, there are a number of ways to process the edges, which are listed below. It’s most common to use padding, cropping, or extension. In extension, the border pixels of an image are copied and extended far enough to result in a filtered image of the same size as the original image.
+
+**Extend** The nearest border pixels are conceptually extended as far as necessary to provide values for the convolution. Corner pixels are extended in 90° wedges. Other edge pixels are extended in lines.
+
+**Padding** The image is padded with a border of 0's, black pixels.
+
+**Crop** Any pixel in the output image which would require values from beyond the edge is skipped. This method can result in the output image being slightly smaller, with the edges having been cropped.
+
+### 16. Gradients and Sobel Filters
+
+> ***Gradients***
+
+**Gradients** are a measure of intensity change in an image, and they generally mark object boundaries and changing areas of light and dark. If we think back to treating images as functions, F(x, y), we can think of the gradient as a derivative operation F ’ (x, y). Where the derivative is a measurement of intensity change.
+
+> ***Sobel filters***
+
+**Sobel filters** are a type of edge detection filter used in image processing and computer vision to identify edges and gradients in images. They are named after their inventor, Irwin Sobel, and are widely used for tasks such as feature extraction, object detection, and image segmentation.
+
+> ***Magnitude***
+
+Sobel also detects which edges are strongest. This is encapsulated by the magnitude of the gradient; the greater the magnitude, the stronger the edge is. The magnitude, or absolute value, of the gradient, is just the square root of the squares of the individual x and y gradients. For a gradient in both the x and y directions, the magnitude is the square root of the sum of the squares.
+
+> ***Direction***
+
+In many cases, it will be useful to look for edges in a particular orientation. For example, we may want to find lines that only angle upwards or point left. By calculating the direction of the image gradient in the x and y directions separately, we can determine the direction of that gradient!
+
+### Python Practice Notebook 9: Finding Edges
+
+Link: [Learning: Computer Vision 9]()
+
+Resources: [Computer Vision Practice Notebook 9]()
+
+> Task: Learn about custom kernels and edges.
+
+### 17. Low-pass Filters
+
+...
