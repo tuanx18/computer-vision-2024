@@ -610,3 +610,164 @@ While Haar Cascades are predominantly known for face detection, they can be trai
 
 Haar Cascades represent a milestone in object detection, particularly in face detection, due to their speed and efficiency. Although they have been somewhat superseded by more advanced techniques in recent years, they remain an important part of the historical and conceptual landscape of computer vision.
 
+### 24. Face Recognition and the Danger of Bias
+
+> ***Algorithms with Human and Data Bias***
+
+Most of the models you've seen and/or programmed, rely on large sets of data to train and learn. When you approach a challenge, it's up to you as a programmer, to define functions and a model for classifying image data. Programmers and data define how classification algorithms like face recognition work.
+
+It's important to note that both data and humans come with their own biases, with unevenly distributed image types or personal preferences, respectively. And it's important to note that these biases propagate into the creation of algorithms. If we consider face recognition, think about the case in which a model like a Haar Cascade is trained on faces that are mainly white and female; this network will then excel at detecting those kinds of faces but not others. If this model is meant for general face recognition, then the biased data has ended up creating a biased model, and algorithms that do not reflect the diversity of the users it aims to serve is not very useful at all.
+
+However, there are significant concerns regarding bias in face recognition systems. Here's what it means and why it's a danger:
+
+24.1. Bias in Training Data: Face recognition algorithms are trained on datasets that may not represent the diversity of human faces accurately. If the training data is biased towards certain demographics (e.g., gender, race, age), the algorithm may perform poorly for individuals outside those groups. For example, if a dataset primarily consists of images of lighter-skinned individuals, the algorithm may have difficulty accurately recognizing faces of darker-skinned individuals.
+
+24.2. Unintentional Discrimination: Due to biased training data, face recognition systems can unintentionally discriminate against certain groups. This can lead to unfair treatment and exacerbate existing societal biases. For example, biased facial recognition systems might disproportionately misidentify individuals from minority groups, leading to their wrongful suspicion or exclusion.
+
+24.3. Privacy Concerns: Face recognition technology raises significant privacy concerns, especially when used for surveillance purposes. Biased systems may disproportionately target and monitor certain groups, leading to infringements on their privacy and civil liberties.
+
+24.4. Consequences of Misidentification: Misidentification by face recognition systems can have serious consequences, including false arrests, wrongful accusations, and denial of services. These consequences are particularly severe when biased systems disproportionately affect marginalized communities.
+
+24.5. Lack of Accountability: Many face recognition algorithms are proprietary, making it difficult to assess their accuracy and potential biases. Without transparency and accountability, it's challenging to identify and address bias in these systems.
+
+> ***Working to Eliminate Bias***
+
+Biased results are the effect of bias in programmers and in data, and we can work to change this. We must be critical of our own work, critical of what we read, and develop methods for testing such algorithms. As you learn more about AI and deep learning models, you'll learn some methods for visualizing what a neural network has learned, and you're encouraged to look at your data and make sure that it is balanced; data is the foundation for any machine and deep learning model. It's also good practice to test any algorithm for bias; as you develop deep learning models, it's a good idea to test how they respond to a variety of challenges and see if they have any weaknesses.
+
+### 25. Beyond Edges, Selecting Different Features
+
+> ***Features***
+
+Features and feature extraction is the basis for many computer vision applications. The idea is that any set of data, such as a set of images, can be represented by a smaller, simpler model made of a combination of visual features: a few colors and shapes. (This is true with one exception: completely random data!)
+
+If you can find a good model for any set of data, then you can start to find ways to identify patterns in data based on similarities and differences in the features in an image. This is especially important when we get too deep learning models for image classification, which you'll see soon.
+
+> ***Types of Features***
+
+We've described features as measurable pieces of data in an image that help distinguish between different classes of images.
+
+There are two main types of features:
+
+- Color-based and
+- Shape-based
+
+Both of these are useful in different cases and they are often powerful together. We know that color is all you need should you want to classify day/night images or implement a green screen. Let's look at another example: say I wanted to classify a stop sign vs. any other traffic sign. Stop signs are supposed to stand out in color and shape! A stop sign is an octagon (it has 8 flat sides) and it is very red. Its red color is often enough to distinguish it, but the sign can be obscured by trees or other artifacts and the shape ends up being important, too.
+
+As a different example, say I want to detect a face and perform facial recognition. I'll first want to detect a face in a given image; this means at least recognizing the boundaries and some features on that face, which are all determined by shape. Specifically, I'll want to identify the edges of the face and the eyes and mouth on that face, so that I can identify the face and recognize it. Color is not very useful in this case, but shape is critical.
+
+> ***A note on shape***
+
+Edges are one of the simplest shapes that you can detect; edges often define the boundaries between objects but they may not provide enough information to find and identify small features on those objects (such as eyes on a face) and in the next videos, we'll look at methods for finding even more complex shapes.
+
+
+## **Lesson 3: Features and Segmentation**
+
+In this lesson I will be able to:
+
+- Implement code to distinguish features and extract information about an object’s color and shape.
+- Use features to identify areas on a face and to recognize the shape of a car or pedestrian on a road.
+- Implement k-means clustering to break an image up into parts.
+- Find the contours and edges of multiple objects in an image.
+- Learn about background subtraction for video.
+
+## 26. Corner Detectors
+
+> ***What is a corner?***
+
+In computer vision, a "corner" refers to a point in an image where the brightness changes abruptly in more than one direction. These points typically occur at the intersection of two edges, where the intensity gradient has a significant change in both the horizontal and vertical directions.
+
+Corners are crucial features in computer vision tasks such as image recognition, object detection, and motion tracking. They provide distinctive landmarks that can be used to identify and match objects or patterns in images.
+
+A corner can be located by following these steps:
+
+- Calculate the gradient for a small window of the image, using sobel-x and sobel-y operators (without applying binary thesholding).
+- Use vector addition to calculate the magnitude and direction of the total gradient from these two values.
+- A gradient triangle, including ϴ (theta), Gx, Gy, and the total magnitude, ρ (rho).
+
+Apply this calculation as you slide the window across the image, calculating the gradient of each window. When a big variation in the direction & magnitude of the gradient has been detected - a corner has been found!
+
+> ***Corner Detectors***
+
+A corner detector is an algorithm used in computer vision to identify points in an image where the intensity changes abruptly in more than one direction, typically indicating the presence of corners or interest points. Corner detection algorithms are essential for various tasks in computer vision, such as feature matching, object recognition, and image registration.
+
+Here are a few common corner detection algorithms:
+
+26.1. **Harris Corner Detector** - *This is the main algorithm that we used when doing **Corner Detection***: The Harris corner detector is one of the earliest and most widely used corner detection algorithms. It measures the variation in intensity for a small region in multiple directions and computes a score based on the eigenvalues of the autocorrelation matrix. High eigenvalues indicate corners.
+
+26.2. **Shi-Tomasi Corner Detector**: The Shi-Tomasi corner detector is a variation of the Harris corner detector. Instead of using the eigenvalues of the autocorrelation matrix, it selects corners based on the minimum eigenvalue of a matrix computed from the local gradient structure.
+
+26.3. **FAST (Features from Accelerated Segment Test)**: FAST is a corner detection algorithm that identifies corners based on the presence of contiguous pixels with intensities significantly brighter or darker than the central pixel. It's computationally efficient and suitable for real-time applications.
+
+26.4. **SIFT (Scale-Invariant Feature Transform)**: SIFT is a feature detection algorithm that includes a keypoint localization step that identifies stable points in an image, including corners. SIFT keypoints are invariant to scale, rotation, and illumination changes, making them widely used in computer vision applications.
+
+26.5. **ORB (Oriented FAST and Rotated BRIEF)**: ORB is a fusion of the FAST corner detector and the BRIEF descriptor. It detects corners using the FAST algorithm and generates descriptors based on binary tests. ORB is efficient and suitable for real-time applications.
+
+26.6. **Good Features to Track (GFTT)**: GFTT is a corner detection algorithm that aims to identify points that are suitable for tracking across multiple frames in a video sequence. It selects corners based on local intensity variation and is commonly used in motion estimation and tracking applications.
+
+### 27. Dilation and Erosion
+
+Dilation and erosion are known as morphological operations. They are often performed on binary images, similar to contour detection. Dilation enlarges bright, white areas in an image by adding pixels to the perceived boundaries of objects in that image. Erosion does the opposite: it removes pixels along object boundaries and shrinks the size of objects.
+
+Often these two operations are performed in sequence to enhance important object traits!
+
+![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/5cb17f72-cd9d-4697-a5e5-ce8a537f4657)
+
+> ***Opening***
+
+As mentioned, above, these operations are often combined for desired results! One such combination is called **opening**, which is erosion followed by dilation. This is useful in noise reduction in which erosion first gets rid of noise (and shrinks the object) then dilation enlarges the object again, but the noise will have disappeared from the previous erosion!
+
+> ***Closing***
+
+Closing is the reverse combination of opening; it’s dilation followed by erosion, which is useful in closing small holes or dark areas within an object.
+
+Closing is reverse of Opening, Dilation followed by Erosion. It is useful in closing small holes inside the foreground objects, or small black points on the object.
+
+### 28. Image Segmentation
+
+**Image segmentation** is the process of partitioning an image into multiple segments or regions based on certain characteristics, such as color, intensity, texture, or boundaries. The goal of image segmentation is to simplify and/or change the representation of an image into more meaningful and easier-to-analyze parts.
+
+### 29. Image Contours
+
+Reference: [OpenCV Contour Detection](https://learnopencv.com/contour-detection-using-opencv-python-c/)
+
+> ***Countours***
+
+Coutours are the continuous curves that follow the edges along a boundary. it provides a lot of information about the shape of an object boundary
+
+> ***Image Contouring***
+
+**Image contouring**, also known as contour detection or edge detection, is a computer vision technique that aims to identify and extract the boundaries or edges of objects within an image. These boundaries are represented as curves or contours that outline the regions where significant changes in intensity, color, or texture occur.
+
+**Contour detection** plays a crucial role in various computer vision tasks, such as object recognition, segmentation, shape analysis, and image understanding. By detecting edges or contours, computers can extract important features from images and understand the spatial relationships between objects.
+
+Here are some common methods and techniques used for image contouring:
+
+- Gradient-based Methods
+- Canny Edge Detector
+- Contour Detection Algorithms
+- Active Contour Models (Snakes)
+- Convolutional Neural Networks (CNNs)
+- Watershed Transform
+
+### 30. K-means Clustering
+
+**K-means clustering** is a machine learning algorithm used for partitioning a set of data points into a specified number of clusters. It is an unsupervised learning technique commonly used for image segmentation and feature representation.
+
+Here's how K-means clustering works in computer vision:
+
+30.1. **Initialization**: The algorithm starts by randomly selecting K cluster centroids from the data points. These centroids represent the initial cluster centers.
+
+30.2. **Assignment**: Each data point is then assigned to the nearest cluster centroid based on a distance metric, typically Euclidean distance. The data points are partitioned into clusters based on their similarity to the centroids.
+
+30.3. **Update Centroids**: After assigning all data points to clusters, the centroids are updated by computing the mean of all data points assigned to each cluster. This moves the centroids to the center of their respective clusters.
+
+30.4. **Iterative Optimization**: Steps 2 and 3 are repeated iteratively until convergence criteria are met. Convergence occurs when the centroids no longer change significantly between iterations or when a maximum number of iterations is reached.
+
+30.5. **Final Clustering**: Once convergence is achieved, the final clustering result is obtained, where each data point is assigned to one of the K clusters based on its proximity to the cluster centroids.
+
+In computer vision, K-means clustering is often used for tasks such as image segmentation and feature quantization:
+
+**Image Segmentation**: In image segmentation, K-means clustering can be applied to group pixels with similar color or intensity values into clusters, effectively partitioning the image into distinct regions or segments.
+
+**Feature Representation**: K-means clustering can also be used to represent high-dimensional feature vectors extracted from images in a lower-dimensional space. By clustering similar feature vectors together, K-means can generate a compact and descriptive representation of the image content.
+
