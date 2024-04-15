@@ -467,6 +467,146 @@ Resources: [Computer Vision Practice Notebook 9]()
 
 > Task: Learn about custom kernels and edges.
 
-### 17. Low-pass Filters
+### 17. Low-pass filters
 
-...
+A low-pass filter is a type of filter used to remove high-frequency noise from an image while retaining the low-frequency components, such as edges and large-scale gradients. It works by allowing low-frequency information (slow changes in intensity) to pass through while attenuating or blocking high-frequency information (rapid changes in intensity), which typically represents noise or fine details.
+
+Low-pass filters are commonly employed in image processing tasks such as denoising, smoothing, and blurring. They help improve the quality of images by reducing noise and making them more visually appealing or suitable for further analysis or processing.
+
+One of the most common types of low-pass filters used in computer vision is the Gaussian filter, which applies a Gaussian kernel to the image to achieve the desired smoothing effect while preserving important features. Other types include mean filters, median filters, and bilateral filters, each with its own characteristics and applications.
+
+### 18. Gaussian Blur
+
+Blur/smooth and image
+
+Block high-frequency parts of an image
+
+Preserve edges
+
+### 19. Convolutional Layer
+
+> ***The Importance of Filters***
+What you've just learned about different types of filters will be really important as you progress through this course, especially when you get to Convolutional Neural Networks (CNNs). CNNs are a kind of deep learning model that can learn to do things like image classification and object recognition. They keep track of spatial information and learn to extract features like the edges of objects in something called a convolutional layer. Below you'll see a simple CNN structure, made of multiple layers, below, including this "convolutional layer".
+> ***Convolutional Layer***
+The convolutional layer is produced by applying a series of many different image filters, also known as convolutional kernels, to an input image.
+
+### 20. Canny Edge Detector
+
+Widely-used and accurate edge detection algorithm
+
+Eliminates weak edges and noise
+
+Isolates edges that are part of an object boundary
+
+**Canny edge** detection is a popular technique used in computer vision to detect edges in images. It was developed by John F. Canny in 1986 and is widely used due to its effectiveness in identifying edges accurately while minimizing noise.
+
+The Canny edge detection algorithm consists of several steps:
+
+1. Gaussian Smoothing: The input image is first smoothed using a Gaussian filter to reduce noise and unwanted details. This step helps in reducing the effects of noise on the edge detection process.
+
+2. Gradient Calculation: After smoothing, the gradients of the image are calculated using techniques like Sobel or Prewitt operators. These operators compute the gradient magnitude and direction at each pixel, indicating the rate of change of intensity in the image.
+
+3. Non-maximum Suppression: In this step, the algorithm goes through the gradient magnitude image and thins out the edges by retaining only the local maxima in the gradient direction. This ensures that only the most prominent edges are preserved, while weaker or spurious edges are suppressed.
+
+4. Double Thresholding: The edges are then classified into strong, weak, and non-edges based on two user-defined thresholds: a high threshold and a low threshold. Pixels with gradient magnitudes above the high threshold are considered strong edges, while those between the high and low thresholds are considered weak edges. Pixels below the low threshold are classified as non-edges.
+
+5. Edge Tracking by Hysteresis: This final step aims to link weak edges that are likely parts of the same edge structure. It involves tracing along the edges in the image and connecting adjacent strong edges to form continuous edge contours. This is achieved by considering the connectivity of pixels and their gradient magnitudes.
+
+### 21. Shape Detection
+
+- Purpose: Shape detection involves identifying and recognizing specific shapes or patterns within images. These shapes could be simple geometric shapes like circles, squares, or triangles, or more complex structures like objects or symbols.
+- Techniques: Shape detection algorithms vary depending on the complexity and nature of the shapes being detected. Simple shapes can often be detected using techniques like contour detection, which identifies closed curves in the image. More complex shapes may require advanced algorithms such as template matching, Hough transform, or machine learning-based approaches.
+- Output: The output of shape detection algorithms is typically the location, size, orientation, and sometimes the identity of the detected shapes within the image.
+- Usage: Shape detection is used in applications such as object recognition, object tracking, industrial inspection, medical imaging, and robotics. It enables systems to understand and interact with the visual world by identifying and analyzing meaningful structures within images.
+
+> ***Edge Detection***
+
+Now that you've seen how to define and use image filters for smoothing images and detecting the edges (high-frequency) components of objects in an image, let's move one step further. The next few videos will be all about how we can use what we know about pattern recognition in images to begin identifying unique shapes and then objects.
+
+- Purpose: Edge detection is the process of identifying the boundaries of objects within images. Edges typically represent significant changes in intensity or color in an image and often correspond to object boundaries or discontinuities in the scene.
+- Techniques: There are various edge detection algorithms, with some of the most common being Sobel, Prewitt, Roberts, and Canny. These algorithms use mathematical operations to highlight regions in the image where there are abrupt changes in intensity or color.
+
+- Output: The output of edge detection algorithms is typically a binary image or a map of edges, where edge pixels are marked with a high intensity value (e.g., white) and non-edge pixels are marked with a low intensity value (e.g., black).
+- Usage: Edge detection is used in numerous computer vision tasks such as object detection, image segmentation, feature extraction, and shape analysis. It serves as a preprocessing step for many higher-level algorithms.
+
+### 22. Hough Transform
+
+> ***Introduction***
+
+The ***Hough Transform*** is a feature extraction technique used in image analysis, computer vision, and digital image processing. The purpose of the Hough Transform is to detect simple shapes such as lines, circles, and other parametric curves in an image. The classical Hough Transform was initially developed to detect lines but has since been extended to identify positions of arbitrary shapes, most commonly circles and ellipses.
+
+> ***Principles of the Hough Transform***
+
+Line Detection In the context of line detection, the Hough Transform works by transforming points in the image space to a parameter space. Consider a line in the image space, which can be described by the equation y = mx + c. This equation can be rewritten in a parameter space (Hough space) in terms of its parameters, such as the slope m and intercept c. However, for vertical lines where the slope is infinite, the Hough Transform uses the polar coordinates representation: r = x cos(θ) + y sin(θ), where r is the distance from the origin to the closest point on the straight line, and θ is the angle formed by the line perpendicular to the line and the x-axis.
+
+Accumulator Space In the Hough space, each point in the image space corresponds to a sinusoidal curve. The idea is to find the intersection of these curves which corresponds to potential lines in the image space. This is achieved using an accumulator space, where each cell represents a potential line with specific parameters (r, θ). For each edge point in the image, the corresponding sinusoid in the accumulator space is incremented. The cell with the highest value indicates the line parameters.
+
+Extension to Other Shapes The Hough Transform can be extended to detect other shapes like circles, which can be parameterized as (a, b, r) where (a, b) is the center of the circle, and r is its radius. Similar to line detection, each point in the image space votes for all circle parameters that could pass through it, and these votes are accumulated to find potential circles.
+
+> ***Algorithm Steps***
+
+22.1. Edge Detection: Typically, an edge detector like the Canny edge detector is applied to the image.
+
+22.2. Mapping to Parameter Space: Each edge point votes for all the parameter combinations that could have created it.
+
+22.3. Accumulation: Votes are accumulated in the parameter space, and local maxima in this space correspond to potential shape parameters.
+Thresholding: A threshold is applied to select the most likely candidates from the accumulator space.
+
+> ***Applications***
+
+- Line Detection: For tasks like lane detection in autonomous vehicles.
+- Circle Detection: Useful in detecting circular objects like coins, pupils in eyes, etc.
+- General Shape Detection: Can be adapted for arbitrary shapes, but at a computational cost.
+
+> ***Limitations***
+
+- Computational Complexity: Especially for shapes with more parameters (e.g., ellipses).
+- Sensitivity to Noise: Edge detection in noisy images can lead to false detections.
+- Discretization and Resolution: The choice of bin sizes in the accumulator array affects both accuracy and computational efficiency.
+
+> ***Conclusion***
+
+The Hough Transform is a robust method for shape detection in images. While it has limitations in terms of computational efficiency and noise sensitivity, its ability to detect shapes under various image transformations makes it a valuable tool in computer vision.
+
+### 23. Object Recognition & Introducing Haar Cascades
+
+> ***Feature Extraction and Object Recognition***
+
+So, you've seen how to detect consistent shapes with something like the Hough transform that transforms shapes in x-y coordinate space into intersecting lines in Hough space. You've also gotten experience programming your own image filters to perform edge detection. **Filtering images** is a feature extraction technique because it filters out unwanted image information and extracts unique and identifying features like edges or corners.
+
+Extracting features and patterns in image data, using things like image filters, is the basis for many object recognition techniques. In the image below, we see a classification pipeline that is looking at an image of a banana; the image first goes through some filters and processing steps to form a feature that represents that banana, and this is used to help classify it. And we'll learn more about feature types and extraction methods in the next couple of lessons.
+
+> ***Haar Cascade and Face Recognition***
+
+The method we'll be looking at is called a Haar cascade classifier. It's a machine learning based approach where a cascade function is trained to solve a binary classification problem: face or not-face; it trains on a lot of positive (face) and negative (not-face) images, as seen below.
+
+The **Haar cascade** is a popular method for object detection in images. It uses a series of simple rectangular features to identify objects within an image. These features are derived from Haar wavelets, which are mathematical functions used in signal processing.
+
+The algorithm works by training a classifier to distinguish between regions of an image that contain the object of interest (e.g., faces) and regions that do not. It does this by using a large number of positive and negative image examples during a training phase.
+
+Once trained, the Haar cascade classifier can be used to detect objects of interest in new images by scanning the image at multiple scales and locations, applying the learned features to each region of the image. If a region matches the learned features well enough, it is considered to contain the object being detected.
+
+> ***How Haar Cascades Work***
+
+- Haar Features Haar Cascades employ Haar-like features, which are simple binary patterns resembling Haar wavelets. These features are used to capture the presence of oriented contrasts between regions in an image. Commonly used Haar features include edge features, line features, and four-rectangle features. They are particularly effective in identifying facial structures such as the nose bridge, eye regions, and forehead.
+
+- Integral Images An integral image (or summed area table) is a pre-processing step in Haar Cascades. It allows for the rapid summation of pixel values in a rectangular subset of an image. Each element of an integral image at a specific location contains the sum of the pixel values above and to the left of it, inclusive. This technique significantly accelerates feature calculation.
+
+- AdaBoost Training The AdaBoost (Adaptive Boosting) algorithm is used for selecting a small set of important features and training classifiers that use them. This process involves feeding a series of positive and negative training images (e.g., images with and without faces for face detection). AdaBoost determines the best threshold for each Haar feature to classify images as positive or negative and selects the most relevant features.
+
+- Creating Classifier Cascades A cascade function is formed by AdaBoost to combine several weaker classifiers to produce a strong classifier. The cascade is structured as a series of stages where each stage consists of a strong classifier. The image region passes through each stage, and at each stage, it is classified as positive or negative. If at any stage the region is classified as negative, it is discarded. This cascading method ensures that non-relevant regions are quickly eliminated, enhancing the efficiency of the detector.
+
+> ***Applications***
+
+While Haar Cascades are predominantly known for face detection, they can be trained to detect other objects. However, the method might not be as effective for non-rigid objects or objects lacking distinctive texture contrasts.
+
+> ***Limitations***
+
+- Haar Cascades can suffer from false positives.
+- They are sensitive to lighting conditions and face angles.
+- Modern methods like deep learning-based detectors often outperform Haar Cascades in accuracy.
+
+> ***Conclusion***
+
+Haar Cascades represent a milestone in object detection, particularly in face detection, due to their speed and efficiency. Although they have been somewhat superseded by more advanced techniques in recent years, they remain an important part of the historical and conceptual landscape of computer vision.
+
