@@ -771,3 +771,221 @@ In computer vision, K-means clustering is often used for tasks such as image seg
 
 **Feature Representation**: K-means clustering can also be used to represent high-dimensional feature vectors extracted from images in a lower-dimensional space. By clustering similar feature vectors together, K-means can generate a compact and descriptive representation of the image content.
 
+## **Lesson 4: Corners and Object Detection**
+
+In this lesson we will be able to:
+
+Use features to detect images using feature vectors based on the Oriented FAST and Rotated BRIEF (ORB) framework
+
+Say we want a way to detect this mountain in other images, too. A single corner will not be enough to identify this mountain in any other images, but, we can take a set of features that define the shape of this mountain, group them together into an array or vector, and then use that set of features to create a mountain detector!
+
+In this lesson, we’ll learn how to create feature vectors that can then be used to recognize different objects.
+
+Let's get started!
+
+### 31. Feature Vectors
+
+**Feature vectors** are numerical representations of features or characteristics of an object or phenomenon. In various fields such as machine learning, computer vision, natural language processing, and signal processing, feature vectors play a crucial role as they capture the relevant information needed for analysis, modeling, or classification tasks.
+
+Here's a breakdown of the concept:
+
+31.1. Features: Features are measurable properties or attributes of data that are relevant to the task at hand. For example, in an image, features could include color intensity, texture, shape, etc. In natural language processing, features could be word frequencies, syntactic patterns, or semantic embeddings.
+
+31.2. Vector Representation: To enable mathematical operations and analysis, features are often represented as vectors. A feature vector is simply a vector where each dimension corresponds to a particular feature, and the value in each dimension represents the measurement or characteristic of that feature. These vectors can be of fixed or variable length depending on the application.
+
+### 32. Real-time Feature Detection
+
+> ***ORB Algorithm***
+
+**Oriented FAST as Rotated BRIEF (ORB)** is a feature detection and description algorithm used in computer vision. It combines the speed of the FAST (Features from Accelerated Segment Test) keypoint detector with the robustness of the BRIEF (Binary Robust Independent Elementary Features) descriptor.
+
+**FAST keypoint detector**: FAST is a corner detection algorithm that identifies keypoints by comparing the intensities of pixels in a circular neighborhood around a candidate pixel. It is known for its computational efficiency and is capable of detecting keypoints in real-time applications.
+
+**Rotated BRIEF descriptor**: BRIEF is a binary descriptor that encodes local image information around keypoints into a compact binary string. However, the original BRIEF descriptor lacks rotation invariance, meaning it is sensitive to image rotations. ORB addresses this limitation by introducing rotation invariance. It achieves this by computing a rotation-invariant descriptor based on the intensity comparisons between pairs of points in the local neighborhood around each keypoint.
+
+**Keypoint**: also known as an interest point or feature point, is a distinctive and informative location in an image that can be robustly detected and described. **Keypoints** are critical for tasks such as image matching, object recognition, and image alignment. They serve as reference points that enable algorithms to identify and compare visual content across different images.
+
+### 33. FAST
+
+> ***Features from Accelerated Segments Test***
+
+FAST (Features from Accelerated Segment Test) is a corner detection algorithm used in computer vision for detecting key points in images. It's designed to be computationally efficient and is commonly used in real-time applications such as object tracking, image registration, and feature-based localization.
+
+
+Corner detection: **FAST** operates by considering a circular neighborhood around each pixel in the image. For a given pixel p, it compares the intensity of p to the intensities of pixels on a circle of radius r around p.
+
+**FAST** is known for its computational efficiency, making it suitable for real-time applications on devices with limited processing power. However, it has some limitations, such as sensitivity to noise and lack of robustness to scale and rotation changes. Therefore, it's often used in combination with other algorithms for tasks requiring robust feature detection.
+
+### 34. BRIEF
+
+**BRIEF (Binary Robust Independent Elementary Features)** is a feature descriptor used in computer vision for representing local image patches as compact binary strings. It aims to efficiently encode the relevant information about the appearance of a keypoint neighborhood into a form that is robust to changes in illumination, viewpoint, and noise.
+
+Here's how BRIEF works:
+
+34.1. **Sampling pairs of pixels**: BRIEF randomly selects pairs of pixel coordinates within a small patch around a keypoint. These pixel pairs are called "sampling points." The number of sampling points is a parameter of the BRIEF descriptor.
+
+34.2. **Comparison of pixel intensities**: For each pair of sampling points, BRIEF compares the intensity of the two pixels. If the intensity of the first pixel is greater than the intensity of the second pixel, the corresponding bit in the binary string is set to 1; otherwise, it's set to 0.
+
+34.3. **Binary string representation**: After comparing the intensities of all pairs of sampling points, BRIEF constructs a binary string based on the results of these comparisons. Each bit in the binary string represents the result of one intensity comparison.
+
+34.4. **Descriptor**: The resulting binary string serves as the descriptor for the keypoint. It encapsulates information about the local image structure surrounding the keypoint in a compact form.
+
+BRIEF offers several advantages:
+
+- Compact representation: The binary nature of the BRIEF descriptor results in a very compact representation of local image patches, making it memory-efficient and suitable for fast matching algorithms.
+- Efficient computation: BRIEF can be computed quickly, especially when using a small number of sampling points.
+- Independence from image transformations: The binary nature of the descriptor provides some degree of robustness to changes in illumination, viewpoint, and noise.
+
+However, BRIEF also has limitations, including its lack of rotation and scale invariance. To address these limitations, BRIEF is often combined with other techniques such as keypoint detection algorithms (e.g., FAST) and techniques for achieving rotation and scale invariance (e.g., ORB - Oriented FAST and Rotated BRIEF).
+
+Overall, BRIEF is a useful tool for feature matching and recognition tasks in computer vision, particularly in scenarios where computational efficiency and memory constraints are important considerations.
+
+### 35. Scale and Rotation Invariance
+
+**Scale and rotation** invariance are essential properties in computer vision tasks, particularly in feature detection and description, which involve analyzing images containing objects or scenes under varying conditions such as viewpoint changes, scale transformations, or rotations. Achieving scale and rotation invariance ensures that the algorithms can robustly detect and match features across different images regardless of these transformations.
+
+Here's an explanation of each concept:
+
+35.1. **Scale invariance**: Scale invariance refers to the ability of an algorithm to detect and describe features in an image regardless of changes in the scale or size of those features. In real-world scenarios, objects or scenes may appear at different scales due to factors such as distance from the camera, zoom levels, or variations in object sizes. For instance, a particular object may appear larger or smaller in different images even though it represents the same object.
+
+Methods for achieving scale invariance typically involve techniques such as:
+
+35.2. **Scale-space representation**: Representing the image at multiple scales using techniques like Gaussian blur or image pyramids.
+
+35.3. **Feature detection at multiple scales**: Detecting features (keypoints) at multiple scales to ensure that features are detected regardless of their size relative to the image.
+
+35.4. **Rotation invariance**: Rotation invariance refers to the ability of an algorithm to detect and describe features in an image regardless of changes in the orientation or rotation of those features. In real-world scenarios, objects or scenes may appear rotated or oriented differently in different images due to variations in camera viewpoints or object poses.
+
+Methods for achieving rotation invariance typically involve techniques such as:
+
+- Orientation assignment: Estimating the dominant orientation of each feature (keypoint) and representing the feature descriptor in a canonical reference frame aligned with this orientation. This ensures that the descriptor remains invariant to rotations.
+
+- Rotated feature detection: Detecting features (keypoints) at multiple orientations to ensure that features are detected regardless of their orientation relative to the image.
+
+Several algorithms and techniques in computer vision address scale and rotation invariance. For example:
+
+- SIFT (Scale-Invariant Feature Transform): SIFT detects keypoints at multiple scales and assigns orientations to achieve scale and rotation invariance in feature description.
+
+- SURF (Speeded Up Robust Features): SURF uses integral images and Haar wavelet responses to achieve scale and rotation invariance in feature detection and description.
+
+- ORB (Oriented FAST and Rotated BRIEF): ORB combines the FAST keypoint detector with the BRIEF descriptor and introduces orientation assignment to achieve rotation invariance.
+
+Achieving scale and rotation invariance ensures that computer vision algorithms can robustly handle variations in scale, viewpoint, and orientation, making them applicable to a wide range of real-world applications such as object recognition, image stitching, augmented reality, and 3D reconstruction.
+
+### 36. Feature Matching
+
+> ***Query Image***
+
+A query image is an image used as a reference for searching or retrieving similar images from a database or a collection of images. In various applications of computer vision and image processing, query images are often employed in tasks such as image retrieval, object recognition, and content-based image retrieval (CBIR).
+
+> ***Feature Matching in Computer Vision***
+
+Feature matching is a fundamental task in computer vision and image processing that involves finding correspondences between features detected in different images. The goal of feature matching is to establish associations between keypoints or feature points detected in one image and their corresponding points in another image, enabling various applications such as image alignment, object recognition, stereo vision, and structure-from-motion.
+
+Here's how feature matching typically works:
+
+36.1. **Feature detection**: The process begins with detecting distinctive keypoints or feature points in each image. These keypoints represent salient locations or regions in the image that are likely to be unique and informative for matching.
+
+36.2. **Feature description**: For each detected keypoint, a descriptor is computed to capture the local appearance or characteristics of the surrounding image patch. Descriptors encode information such as gradient orientations, color histograms, or binary patterns that can be used to differentiate between keypoints.
+
+36.3. **Matching**: Once keypoints and descriptors are computed for both images, the next step is to find correspondences between keypoints in the two images. This is done by comparing the descriptors of keypoints detected in one image with the descriptors of keypoints detected in the other image.
+
+36.4. **Matching criteria**: Various similarity measures can be used to compare descriptors and determine the similarity between keypoints. Common methods include Euclidean distance, Hamming distance (for binary descriptors), or normalized cross-correlation.
+
+36.5. **Geometric verification**: After initial matches are found, geometric verification techniques may be applied to filter out incorrect matches and refine the correspondence set. This often involves estimating geometric transformations such as affine transformations or homographies between the images and verifying that the matches satisfy the transformation constraints.
+
+36.6. **Final correspondence set**: The final outcome of feature matching is a set of correspondences between keypoints in the two images. Each correspondence indicates a potential matching relationship between a keypoint in the first image and its corresponding keypoint in the second image.
+
+Feature matching is a crucial step in many computer vision applications, enabling tasks such as image registration, object recognition, 3D reconstruction, panoramic image stitching, motion tracking, and more. The accuracy and robustness of feature matching algorithms significantly impact the performance and reliability of these applications.
+
+### 37. HOG
+
+**Histogram of Oriented Gradients** works by calculating gradients (changes in intensity) in localized portions of an image, typically small overlapping regions called cells. These gradients represent the intensity and direction of edges in those regions. The histogram of these gradients is then computed, capturing the distribution of gradient orientations within each cell.
+
+After computing histograms for all cells, they are typically grouped into larger blocks. This block-wise grouping allows for better normalization and robustness against changes in illumination and contrast.
+
+HOG descriptors are widely used in object detection tasks, especially for pedestrian detection and human detection in images and videos. They provide a compact yet informative representation of the structure of objects in an image, which can be used by machine learning algorithms for classification and detection tasks.
+
+## **Lesson 5: CNN Layers and Visualizations**
+
+In this lesson I will be able to:
+
+- Model and visualize the layers of a deep convolutional neural network: convolutional, maxpooling, and fully-connected layers.
+- Build an CNN-based image classifier in PyTorch.
+- Learn about layer activation and implement feature visualization techniques.
+
+Let's get started!
+
+### 38. CNN Architecture
+
+> ***CNN Structures***
+
+**CNN Layers** - The CNN itself is comprised of a number of layers; layers that extract features from input images, reduce the dimensionality of the input, and eventually produce class scores. In this lesson, we'll go over all of these different layers, so that you know how to define and train a complete CNN!
+
+> ***Convolutional Neural Networks (CNN's)***
+
+The type of deep neural network that is most powerful in image processing tasks, such as sorting images into groups, is called a Convolutional Neural Network (CNN). CNN's consist of layers that process visual information. A CNN first takes in an input image and then passes it through these layers. There are a few different types of layers, and we'll start by learning about the most commonly used layers: convolutional, pooling, and fully-connected layers.
+
+> ***Convolutional Layer***
+
+The first layer in this network, that processes the input image directly, is a convolutional layer.
+
+- A convolutional layer takes in an image as input.
+- A convolutional layer, as its name suggests, is made of a set of convolutional filters (which you've already seen and programmed).
+- Each filter extracts a specific kind of feature, ex. a high-pass filter is often used to detect the edge of an object.
+- The output of a given convolutional layer is a set of feature maps (also called activation maps), which are filtered versions of an original input image.
+
+> ***Activation Function***
+
+You may also note that the diagram reads "convolution + ReLu," and the ReLu stands for Rectified Linear Unit (ReLU) activation function. This activation function is zero when the input x <= 0 and then linear with a slope = 1 when x > 0. ReLu's, and other activation functions, are typically placed after a convolutional layer to slightly transform the output so that it's more efficient to perform backpropagation and effectively train the network.
+
+> ***Introducing Alexis***
+
+To help us learn about the layers that make up a CNN, I'm happy to introduce Alexis Cook. Alexis is an applied mathematician with M.S. in computer science from Brown University and an M.S. in applied mathematics from the University of Michigan. Next, she'll talk about convolutional and pooling layers.
+
+> ***ReLU***
+
+**ReLU**, which stands for Rectified Linear Unit, is a type of activation function commonly used in neural networks, including those used in computer vision tasks. It is a simple and widely adopted non-linear function.
+
+In other words, it returns 0 for any input less than 0, and for any input greater than or equal to 0, it returns the input itself. Visually, it looks like a ramp starting at the origin.
+
+ReLU activation is preferred in many neural network architectures for several reasons:
+
+- **Efficiency**: ReLU is computationally efficient to compute compared to other activation functions like sigmoid or tanh, which involve expensive mathematical operations like exponentials.
+- **Sparse Activation**: ReLU can help in sparse activation, where only a fraction of neurons are activated while the others remain dormant. This sparsity can lead to more efficient learning and generalization, especially in deep networks.
+- **Vanishing Gradient Problem**: Unlike sigmoid or tanh activations, ReLU does not saturate in the positive region, which helps alleviate the vanishing gradient problem during training, making it easier for deep networks to converge.
+- **Non-linearity**: ReLU introduces non-linearity to the network, allowing it to learn complex relationships between features.
+
+### 39. Pooling, VGG-16 Architecture
+
+The VGG-16 architecture is a convolutional neural network (CNN) model that was proposed by the Visual Geometry Group (VGG) at the University of Oxford. It was introduced in the paper "Very Deep Convolutional Networks for Large-Scale Image Recognition" by Karen Simonyan and Andrew Zisserman in 2014. VGG-16 is one variant of the VGG models, with 16 weight layers (hence the name).
+
+Here's a brief overview of the architecture:
+
+- Input Layer: The input to VGG-16 is a fixed-size 224 × 224 RGB image.
+- Convolutional Layers: The network consists of 13 convolutional layers, each followed by a Rectified Linear Unit (ReLU) activation function. These convolutional layers use small receptive fields (3×3 convolution filters) with a stride of 1, and they are designed to learn features at different levels of abstraction. The number of filters increases as you go deeper into the network.
+- Max Pooling Layers: After some of the convolutional layers, max pooling layers are added to reduce the spatial dimensions of the feature maps and to introduce some degree of translation invariance. VGG-16 has 5 max pooling layers, each with a 2×2 window and a stride of 2.
+- Fully Connected Layers: The final part of the network consists of three fully connected layers. The first two fully connected layers have 4096 neurons each, followed by ReLU activation functions. The last fully connected layer is the output layer, which has 1000 neurons corresponding to the 1000 classes in the ImageNet dataset (the dataset on which VGG-16 was originally trained). This layer usually employs a softmax activation function to produce class probabilities.
+- Output Layer: The output layer produces class probabilities for the input image. During training, the softmax function is used to convert the output scores into probabilities, and the model is trained using cross-entropy loss.
+- VGG-16 is known for its simplicity and uniform architecture, with all convolutional layers having the same filter size and all max pooling layers having the same window size and stride. Despite its simplicity, VGG-16 achieved very good performance on various image classification tasks and served as the basis for many subsequent deep learning architectures.
+
+> ***Pooling***
+
+Pooling, specifically max pooling and average pooling, is a technique used in convolutional neural networks (CNNs) for reducing the spatial dimensions (width and height) of feature maps while retaining important information.
+
+After a couple of convolutional layers (+ReLu's), in the VGG-16 network, you'll see a maxpooling layer.
+
+- Pooling layers take in an image (usually a filtered image) and output a reduced version of that imag
+- Pooling layers reduce the dimensionality of an inpu
+- Maxpooling layers look at areas in an input image (like the 4x4 pixel area pictured below) and choose to keep the maximum pixel value in that area, in a new, reduced-size area
+- Maxpooling is the most common type of pooling layer in CNN's, but there are also other types such as average pooling.
+
+
+
+
+
+
+
+
+
+
