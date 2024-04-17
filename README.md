@@ -1091,7 +1091,7 @@ The first convolutional layer, often referred to as the input convolutional laye
 
 ### 44. Last Feature Vector and t-SNE
 
->>> ***Last Layer***
+> ***Last Layer***
 
 In addition to looking at the first layer(s) of a CNN, we can take the opposite approach, and look at the last linear layer in a model.
 
@@ -1218,6 +1218,36 @@ In this project, you’ll combine your knowledge of computer vision techniques a
 
 Facial keypoints include points around the eyes, nose, and mouth on a face and are used in many applications. These applications include: facial tracking, facial pose recognition, facial filters, and emotion recognition. Your completed code should be able to look at any image, detect faces, and predict the locations of facial keypoints on each face. Some examples of these keypoints are pictured below.
 
+> Data: [Kaggle - Facial Key Points Image Dataset](https://www.kaggle.com/c/facial-keypoints-detection/overview)
+
+*Dataset description:*
+
+The objective of this task is to predict keypoint positions on face images. This can be used as a building block in several applications, such as:
+
+- Tracking faces in images and video
+- Analysing facial expressions
+- Detecting dysmorphic facial signs for medical diagnosis
+- Biometrics / face recognition
+  
+Detecing facial keypoints is a very challenging problem.  Facial features vary greatly from one individual to another, and even for a single individual, there is a large amount of variation due to 3D pose, size, position, viewing angle, and illumination conditions. Computer vision research has come a long way in addressing these difficulties, but there remain many opportunities for improvement.
+
+Each predicted keypoint is specified by an (x,y) real-valued pair in the space of pixel indices. There are 15 keypoints, which represent the following elements of the face:
+
+*left_eye_center, right_eye_center, left_eye_inner_corner, left_eye_outer_corner, right_eye_inner_corner, right_eye_outer_corner, left_eyebrow_inner_end, left_eyebrow_outer_end, right_eyebrow_inner_end, right_eyebrow_outer_end, nose_tip, mouth_left_corner, mouth_right_corner, mouth_center_top_lip, mouth_center_bottom_lip*
+
+Left and right here refers to the point of view of the subject.
+
+In some examples, some of the target keypoint positions are misssing (encoded as missing entries in the csv, i.e., with nothing between two commas).
+
+The input image is given in the last field of the data files, and consists of a list of pixels (ordered by row), as integers in (0,255). The images are 96x96 pixels.
+
+> *Data files*
+
+**training.csv**: list of training 7049 images. Each row contains the (x,y) coordinates for 15 keypoints, and image data as row-ordered list of pixels.
+
+**test.csv**: list of 1783 test images. Each row contains ImageId and image data as row-ordered list of pixels
+
+**submissionFileFormat.csv**: list of 27124 keypoints to predict. Each row contains a RowId, ImageId, FeatureName, Location. FeatureName are "left_eye_center_x," "right_eyebrow_outer_end_y," etc. Location is what you need to predict. 
 
 
 
