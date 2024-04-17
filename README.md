@@ -980,6 +980,250 @@ After a couple of convolutional layers (+ReLu's), in the VGG-16 network, you'll 
 - Maxpooling layers look at areas in an input image (like the 4x4 pixel area pictured below) and choose to keep the maximum pixel value in that area, in a new, reduced-size area
 - Maxpooling is the most common type of pooling layer in CNN's, but there are also other types such as average pooling.
 
+**Pooling layers** are a critical component of Convolutional Neural Networks (CNNs). They are used to reduce the spatial dimensions (width and height) of the input volume for the next convolutional layer. Pooling helps to decrease the computational power required to process the data through dimensionality reduction. Additionally, it is useful for extracting dominant features which are rotational and positional invariant, thus helping in achieving effective feature learning.
+
+> ***Max Pooling 2D***
+
+Max Pooling is a type of operation that selects the maximum element from the region of the feature map covered by the filter. Typically, a 2x2 filter is used with stride 2.
+
+How Max Pooling Works:
+
+The filter moves to the receptive field, selects the maximum value of the pixels covered by the filter, and outputs it.
+
+This process is repeated for all locations on the feature map.
+
+Stride determines how much the filter moves at each step; a stride of 2 reduces the size of the feature map by half.
+
+> ***Global Average Pooling***
+
+Global Average Pooling (GAP) is a pooling operation designed to replace the fully connected layers in traditional CNNs. In GAP, the average of each feature map is calculated and used for classification.
+
+How Global Average Pooling Works:
+
+Unlike Max Pooling, GAP takes the average of each channel of the convolutional feature map.
+
+It reduces each channel to a single scalar value, flattening the output and reducing the total number of parameters.
+
+### 40. Fully-Connected Layers, VGG-16
+
+![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/f3d3d01f-b2d3-4c3b-a06f-251bb86d5fca)
+
+VGG-16 Architecture
+ 
+> ***Fully-Connected Layer***
+
+A fully-connected layer's job is to connect the input it sees to a desired form of output. Typically, this means converting a matrix of image features into a feature vector whose dimensions are 1xC, where C is the number of classes. As an example, say we are sorting images into ten classes, you could give a fully-connected layer a set of [pooled, activated] feature maps as input and tell it to use a combination of these features (multiplying them, adding them, combining them, etc.) to output a 10-item long feature vector. This vector compresses the information from the feature maps into a single feature vector.
+
+> ***SoftMax***
+
+The very last layer you see in this network is a softmax function. The softmax function, can take any vector of values as input and returns a vector of the same length whose values are all in the range (0, 1) and, together, these values will add up to 1. This function is often seen in classification models that have to turn a feature vector into a probability distribution.
+
+> ***Overfitting***
+
+Convolutional, pooling, and fully-connected layers are all you need to construct a complete CNN, but there are additional layers that you can add to avoid overfitting, too. One of the most common layers to add to prevent overfitting is a dropout layer(opens in a new tab).
+
+Dropout layers essentially turn off certain nodes in a layer with some probability, p. This ensures that all nodes get an equal chance to try and classify different images during training, and it reduces the likelihood that only a few, heavily-weighted nodes will dominate the process.
+
+![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/e77281d5-4455-46cf-bb9c-a76444be237e)
+
+### 41. Training in PyTorch
+
+Once you've loaded a training dataset, next your job will be to define a CNN and train it to classify that set of images.
+
+> ***Loss and Optimizer***
+
+To train a model, you'll need to define how it trains by selecting a loss function and optimizer. These functions decide how the model updates its parameters as it trains and can affect how quickly the model converges, as well.
+
+For a classification problem like this, one typically uses cross-entropy loss, which can be defined in code like: *criterion = nn.CrossEntropyLoss()*. PyTorch also includes some standard stochastic optimizers like stochastic gradient descent and Adam. You're encouraged to try different optimizers and see how your model responds to these choices as it trains.
+
+Classification vs. Regression
+
+The loss function you should choose depends on the kind of CNN you are trying to create; cross-entropy is generally good for classification tasks, but you might choose a different loss function for, say, a regression problem that tried to predict (x,y) locations for the center or edges of clothing items instead of class scores.
+
+> ***Training the Network***
+
+Typically, we train any network for a number of epochs or cycles through the training dataset
+
+Here are the steps that a training function performs as it iterates over the training dataset:
+
+- Prepares all input images and label data for training
+- Passes the input through the network (forward pass)
+- Computes the loss (how far are the predicted classes from the correct labels)
+- Propagates gradients back into the network’s parameters (backward pass)
+- Updates the weights (parameter update)
+- It repeats this process until the average loss has sufficiently decreased.
+
+### 42. Dropout
+
+Dropout is a regularization technique commonly used in neural networks, particularly in deep learning models, to prevent overfitting and improve generalization. The concept was introduced by Geoffrey Hinton and his colleagues in their 2012 paper.
+
+In dropout, during the training phase, a certain percentage of randomly selected neurons are temporarily "dropped out" or ignored. This means their outputs, along with any connections they have, are ignored during the forward and backward pass of training. The dropout rate is typically a hyperparameter set before training, indicating the probability that a neuron will be dropped out.
+
+By randomly dropping neurons during training, dropout forces the network to learn redundant representations, as it can't rely on the presence of any single neuron. This helps prevent overfitting by effectively creating an ensemble of smaller networks that share parameters. During inference (testing or evaluation), all neurons are used, but their outputs are scaled by the dropout rate to maintain the expected value.
+
+> ***Momentum***
+
+In the context of optimization algorithms, momentum is a technique used to accelerate convergence in the gradient descent optimization process, particularly in training deep neural networks.
+
+In standard gradient descent, the update at each iteration is determined solely by the current gradient of the loss function with respect to the model parameters. However, this approach can lead to slow convergence, especially in regions of the parameter space where the gradient changes direction frequently or when there are saddle points.
+
+### 43. Feature Visualization
+
+**Feature visualization** is a technique used in the field of deep learning and computer vision to understand and interpret what individual neurons or layers within a neural network are detecting or responding to in an input image.
+
+The basic idea behind feature visualization is to generate an input image that maximally activates a particular neuron or a set of neurons in a neural network. This is often done by optimizing an input image to maximize the activation of the target neuron(s) while minimizing changes to the rest of the image.
+
+One common method used for feature visualization is gradient ascent. In this approach, the gradient of the output with respect to the input image is computed, and the input image is iteratively updated in the direction that maximizes the activation of the target neuron(s). By iteratively updating the input image to maximize the activation of specific neurons, researchers can gain insights into what kinds of patterns or features these neurons are sensitive to.
+
+Feature visualization has been used to gain insights into the inner workings of neural networks, understand what features they are learning, and diagnose issues such as overfitting or underfitting. It has also been used to generate visualizations that are interpretable to humans, helping to explain and interpret the decisions made by neural networks in tasks such as image classification.
+
+> ***Feature Maps***
+
+![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/42ad121d-b11c-4b85-a096-8006f9058047)
+
+Feature maps, also known as activation maps, are the outputs of convolutional layers in a convolutional neural network (CNN).
+
+When an input image is passed through a CNN, it undergoes a series of convolutional operations, where filters (also called kernels) are convolved with the input image to extract various features. Each filter detects a specific pattern or feature, such as edges, textures, or shapes.
+
+> ***First Convolutional Layer***
+
+The first convolutional layer, often referred to as the input convolutional layer or simply the "conv1" layer, is the initial layer in a convolutional neural network (CNN). It directly processes the input data, which is typically an image or a volume of features extracted from an image.
+
+### 44. Last Feature Vector and t-SNE
+
+>>> ***Last Layer***
+
+In addition to looking at the first layer(s) of a CNN, we can take the opposite approach, and look at the last linear layer in a model.
+
+We know that the output of a classification CNN, is a fully-connected class score layer, and one layer before that is a feature vector that represents the content of the input image in some way. This feature vector is produced after an input image has gone through all the layers in the CNN, and it contains enough distinguishing information to classify the image.
+
+![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/5f75206c-1a03-4b3e-a2ea-81310bf346c4)
+
+> ***Final Feature Vector***
+
+To visualize what a vector represents about an image, we can compare it to other feature vectors, produced by the same CNN as it sees different input images. We can run a bunch of different images through a CNN and record the last feature vector for each image. This creates a feature space, where we can compare how similar these vectors are to one another.
+
+We can measure vector-closeness by looking at the nearest neighbors in the feature space. Nearest neighbors for an image is just an image that is near to it; that matches its pixels values as closely as possible. So, an image of an orange basketball will closely match other orange basketballs or even another orange, round shapes like an orange fruit, as seen below.
+
+![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/d948b85b-1d63-4bfc-b85e-38e38ad1384e)
+
+> ***Nearest Neighbors in feature space***
+
+In feature space, the nearest neighbors for a given feature vector are the vectors that most closely match that one; we typically compare these with a metric like MSE or L1 distance. And these images may or may not have similar pixels, which the nearest-neighbor pixel images do; instead, they have very similar content, which the feature vector has distilled.
+
+In short, to visualize the last layer in a CNN, we ask: which feature vectors are closest to one another and which images do those correspond to?
+
+And you can see an example of nearest neighbors in feature space, below; an image of a basketball that matches with other images of basketballs despite being a different color.
+
+> ***Dimensionality reduction***
+
+Another method for visualizing this last layer in a CNN is to reduce the dimensionality of the final feature vector so that we can display it in 2D or 3D space.
+
+For example, say we have a CNN that produces a 256-dimension vector (a list of 256 values). In this case, our task would be to reduce this 256-dimension vector into 2 dimensions that can then be plotted on an x-y axis. There are a few techniques that have been developed for compressing data like this.
+
+> ***Principal Component Analysis***
+
+One is PCA, principal component analysis, which takes a high dimensional vector and compresses it down to two dimensions. It does this by looking at the feature space and creating two variables (x, y) that are functions of these features; these two variables want to be as different as possible, which means that the produced x and y end up separating the original feature data distribution by as large a margin as possible.
+
+> ***t-SNE***
+
+Another really powerful method for visualization is called t-SNE (pronounced, tea-SNEE), which stands for t-distributed stochastic neighbor embeddings. It’s a non-linear dimensionality reduction that, again, aims to separate data in a way that clusters similar data close together and separates differing data.
+
+As an example, below is a t-SNE reduction done on the MNIST dataset, which is a dataset of thousands of 28x28 images, similar to FashionMNIST, where each image is one of 10 hand-written digits 0-9.
+
+### 45. Occlusion, Saliency, and Guided Backpropagation
+
+Other Feature Visualization Techniques: Feature visualization is an active area of research and before we move on, I'd like like to give you an overview of some of the techniques that you might see in research or try to implement on your own!
+
+> ***Occlusion Experiments***
+
+Occlusion means to block out or mask part of an image or object. For example, if you are looking at a person but their face is behind a book; this person's face is hidden (occluded). Occlusion can be used in feature visualization by blocking out selective parts of an image and seeing how a network responds.
+
+The process for an occlusion experiment is as follows:
+
+- Mask part of an image before feeding it into a trained CNN,
+- Draw a heatmap of class scores for each masked image,
+- Slide the masked area to a different spot and repeat steps 1 and 2.
+
+The result should be a heatmap that shows the predicted class of an image as a function of which part of an image was occluded. The reasoning is that if the class score for a partially occluded image is different than the true class, then the occluded area was likely very important!
+
+ ![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/4f47e4ed-ee14-4f5f-9d8a-de0dd1ee2ce2)
+
+> ***Saliency Maps**
+
+Salience can be thought of as the importance of something, and for a given image, a saliency map asks: Which pixels are most important in classifying this image?
+
+Not all pixels in an image are needed or relevant for classification. In the image of the elephant above, you don't need all the information in the image about the background and you may not even need all the detail about an elephant's skin texture; only the pixels that distinguish the elephant from any other animal are important.
+
+Saliency maps aim to show these important pictures by computing the gradient of the class score with respect to the image pixels. A gradient is a measure of change, and so, the gradient of the class score with respect to the image pixels is a measure of how much a class score for an image changes if a pixel changes a little bit.
+
+**Measuring change**
+
+A saliency map tells us, for each pixel in an input image, if we change its value slightly (by dp), how the class output will change. If the class scores change a lot, then the pixel that experienced a change, dp, is important in the classification task.
+
+Looking at the saliency map below, you can see that it identifies the most important pixels in classifying an image of a flower. These kinds of maps have even been used to perform image segmentation (imagine the map overlay acting as an image mask)!
+
+ ![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/b6bb06ce-787d-424f-8167-e0ee3408ebc8)
+
+> ***Guided Backpropagation***
+
+Similar to the process for constructing a saliency map, you can compute the gradients for mid-level neurons in a network with respect to the input pixels. Guided backpropagation looks at each pixel in an input image, and asks: if we change its pixel value slightly, how will the output of a particular neuron or layer in the network change. If the expected output changes a lot, then the pixel that experienced a change is important to that particular layer.
+
+This is very similar to the backpropagation steps for measuring the error between an input and output and propagating it back through a network. Guided backpropagation tells us exactly which parts of the image patches, that we’ve looked at, activate a specific neuron/layer.
+
+ ![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/31a77fd6-bda3-41b1-b31c-b56a0942c5ec)
+
+### 46. Summary of Feature Viz
+
+> ***Deep Dream***
+
+DeepDream takes in an input image and uses the features in a trained CNN to amplify the existing, detected features in the input image! The process is as follows:
+
+- Choose an input image, and choose a convolutional layer in the network whose features you want to amplify (the first layer will amplify simple edges and later layers will amplify more complex features).
+- Compute the activation maps for the input image at your chosen layer.
+- Set the gradient of the chosen layer equal to the activations and use this to compute the gradient image.
+- Update the input image and repeat!
+
+In step 3, by setting the gradient in the layer equal to the activation, we’re telling that layer to give more weight to the features in the activation map. So, if a layer detects corners, then the corners in an input image will be amplified, and you can see such corners in the upper-right sky of the mountain image, below. For any layer, changing the gradient to be equal to the activations in that layer will amplify the features in the given image that the layer is responding to the most.
+
+ ![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/33b4952e-eaee-4533-b3e1-4f9eb74b5d14)
+
+> ***Style Transfer***
+
+Style transfer aims to separate the content of an image from its style. So, how does it do this?
+
+**Isolating content**
+
+When Convolutional Neural Networks are trained to recognize objects, further layers in the network extract features that distill information about the content of an image and discard any extraneous information. That is, as we go deeper into a CNN, the input image is transformed into feature maps that increasingly care about the content of the image rather than any detail about the texture and color of pixels (which is something close to style).
+
+You may hear features, in later layers of a network, referred to as a "content representation" of an image.
+
+**Isolating style**
+
+To isolate the style of an input image, a feature space designed to capture texture information is used. This space essentially looks at the correlations between feature maps in each layer of a network; the correlations give us an idea of texture and color information but leave out information about the arrangement of different objects in an image.
+
+**Combining style and content to create a new image**
+
+Style transfer takes in two images and separates the content and style of each of those images. Then, to transfer the style of one image to another, it takes the content of the new image and applies the style of another image (often a famous artwork).
+
+The objects and shape arrangement of the new image is preserved, and the colors and textures (style) that make up the image are taken from another image. Below you can see an example of an image of a cat [content] being combined with the Hokusai image of waves [style]. Effectively, style transfer renders the cat image in the style of the wave artwork.
+
+ ![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/9ee8c636-cd5a-422c-9051-9b2717061d6b)
+
+## **Image Classification & Regression Challenges – The Project**
+
+### Project Overview
+
+In this project, you’ll combine your knowledge of computer vision techniques and deep learning architectures to build a facial keypoint detection system that takes in any image with faces, and predicts the location of 68 distinguishing keypoints on each face!
+
+Facial keypoints include points around the eyes, nose, and mouth on a face and are used in many applications. These applications include: facial tracking, facial pose recognition, facial filters, and emotion recognition. Your completed code should be able to look at any image, detect faces, and predict the locations of facial keypoints on each face. Some examples of these keypoints are pictured below.
+
+
+
+
+
+
+
 
 
 
