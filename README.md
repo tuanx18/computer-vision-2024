@@ -1249,17 +1249,181 @@ The input image is given in the last field of the data files, and consists of a 
 
 **submissionFileFormat.csv**: list of 27124 keypoints to predict. Each row contains a RowId, ImageId, FeatureName, Location. FeatureName are "left_eye_center_x," "right_eyebrow_outer_end_y," etc. Location is what you need to predict. 
 
+## Lesson 7: Advanced CNN Architectures
 
+### 47. Classification and Localization
 
+Localization in computer vision refers to the process of identifying the location or position of objects within an image or a video frame. This typically involves detecting the presence of objects and determining their spatial extent, usually represented by bounding boxes, polygons, or pixel-level masks.
 
+Localization tasks can vary in complexity, ranging from simple object detection, where the goal is to locate and classify objects of interest within an image, to more precise tasks like object localization, where the aim is to precisely determine the boundaries or contours of objects.
 
+Localization is a fundamental component of many computer vision applications, including object recognition, tracking, segmentation, and augmented reality. It enables machines to understand the spatial layout of visual information and make informed decisions based on the detected objects within a scene.
 
+![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/be466684-301f-499b-a208-570def43b3ee)
 
+### 48. Bounding Boxes and Regression
 
+Bounding boxes and regression are two concepts commonly used in object detection and localization tasks in computer vision.
 
+Bounding Boxes: Bounding boxes are rectangular frames used to localize objects within an image. They are represented by a set of coordinates that define the position, size, and orientation of the box relative to the image's coordinate system. A bounding box is typically defined by its top-left corner coordinates (x, y) and its width and height (w, h). Bounding boxes are often used to encapsulate objects of interest within an image, allowing for easier identification and analysis.
 
+Regression: In the context of object detection and localization, regression refers to the process of predicting the parameters of a bounding box that best fits the target object within an image. This involves learning a mapping function from input image features to the coordinates and dimensions of the bounding box. Regression techniques can vary depending on the complexity of the task and the desired level of accuracy. Common regression approaches include linear regression, logistic regression, and more advanced methods such as convolutional neural networks (CNNs) or other deep learning architectures.
 
+In object detection systems, regression is often combined with classification, where the goal is not only to localize objects within an image but also to classify them into predefined categories. This joint regression and classification approach enable models to accurately detect and classify objects within complex scenes.
 
+> ***Beyond Bounding Boxes***
 
+To predict bounding boxes, we train a model to take an image as input and output coordinate values: (x, y, w, h). This kind of model can be extended to any problem that has coordinate values as outputs! One such example is human pose estimation.
 
+![image](https://github.com/tuanx18/computer-vision-2024/assets/122135362/b62b2717-c863-4283-90aa-842e367902b4)
 
+> ***Weighted Loss Functions***
+
+Weighted loss functions are a type of loss function used in machine learning, particularly in tasks like classification or regression, where certain samples in the dataset may be more important or carry more weight than others.
+
+In a standard loss function, each sample in the dataset contributes equally to the overall loss. However, in many real-world scenarios, some samples may be more difficult to classify or may be more critical to get right. Weighted loss functions allow the model to assign different weights to individual samples based on their importance or difficulty.
+
+For example, in a binary classification problem where the dataset is imbalanced (i.e., one class has significantly more samples than the other), misclassifying samples from the minority class may be more costly than misclassifying samples from the majority class. In such cases, using a weighted loss function can help the model prioritize correctly classifying the minority class by assigning higher weights to its samples.
+
+Similarly, in regression tasks, weighted loss functions can be used to emphasize certain regions of the output space or to downweight outliers that might have a disproportionately large effect on the loss.
+
+### 49. Region Proposals
+
+Region proposals are a crucial component in object detection algorithms, particularly in two-stage detectors like R-CNN (Region-based Convolutional Neural Networks) and its variants. The purpose of region proposals is to generate a set of candidate bounding boxes likely to contain objects within an image, thus reducing the search space for subsequent processing stages.
+
+### 50. R-CNN
+
+R-CNN, which stands for Region-based Convolutional Neural Network, is a seminal object detection framework that revolutionized the field of computer vision. Proposed by Ross Girshick, Jeff Donahue, Trevor Darrell, and Jitendra Malik in 2014, R-CNN introduced a novel approach to object detection by combining region proposals with deep convolutional neural networks (CNNs).
+
+Here's an overview of how R-CNN works:
+
+50.1. Region Proposal: Initially, a large number of potential object locations, known as region proposals, are generated across the input image. These proposals are typically generated using selective search or similar algorithms and represent candidate bounding boxes likely to contain objects.
+
+50.2. Feature Extraction: Each region proposal is warped to a fixed size and passed through a pre-trained CNN (e.g., AlexNet, VGGNet) to extract a fixed-length feature vector. This CNN acts as a feature extractor and is usually pre-trained on a large dataset (e.g., ImageNet) for generic feature learning.
+
+50.3. Classification: The extracted features from each region proposal are then fed into a separate classifier, typically an SVM (Support Vector Machine), to determine whether the region contains an object and, if so, to classify the object into predefined categories or classes.
+
+50.4. Bounding Box Regression: In addition to classification, R-CNN also performs bounding box regression to refine the localization accuracy of the region proposals. This involves predicting adjustments to the coordinates of the bounding boxes to better align them with the objects' true locations.
+
+50.5. Post-processing: Finally, post-processing steps such as non-maximum suppression (NMS) are applied to filter out redundant or overlapping detections and select the most confident bounding boxes for each object class.
+
+Despite its effectiveness, R-CNN has several drawbacks, including its slow inference speed due to the need to process each region proposal individually. To address this limitation, subsequent works such as Fast R-CNN and Faster R-CNN were proposed, which introduced improvements in terms of speed and accuracy by integrating the region proposal generation and feature extraction into a single unified network. Nevertheless, R-CNN laid the foundation for modern object detection frameworks and remains influential in the field.
+
+### 51. Fast R-CNN
+
+**Fast R-CNN**, proposed by Ross Girshick in 2015, builds upon the concepts introduced in R-CNN but introduces several improvements to make the object detection process faster and more streamlined. Here's an overview of how Fast R-CNN works:
+
+51.1. Region of Interest (RoI) Pooling: Instead of processing each region proposal individually, Fast R-CNN introduces a Region of Interest (RoI) pooling layer. This layer allows feature maps from the CNN backbone (e.g., VGGNet, ResNet) to be shared among all region proposals, enabling more efficient computation.
+
+51.2. Unified Network Architecture: Fast R-CNN integrates the region proposal generation, feature extraction, and object classification/regression into a single unified network. This eliminates the need to compute CNN features separately for each region proposal, leading to significant speed improvements during inference.
+
+51.3. End-to-End Training: Unlike R-CNN, where different components (e.g., region proposal, feature extraction, classification) were trained separately, Fast R-CNN allows end-to-end training of the entire network. This improves the model's ability to learn discriminative features and optimize all components jointly.
+
+51.4. Bounding Box Regression: Similar to R-CNN, Fast R-CNN also performs bounding box regression to refine the localization accuracy of the region proposals.
+
+Overall, Fast R-CNN offers notable improvements in both speed and accuracy compared to its predecessor R-CNN. However, despite its advancements, Fast R-CNN still suffers from the bottleneck of region proposal generation, which was addressed in subsequent models like Faster R-CNN and Mask R-CNN. These models further refined the object detection pipeline to achieve even faster inference speeds and improved performance.
+
+> ***Speed***
+
+Fast R-CNN is about 10 times as fast to train as an R-CNN because it only creates convolutional layers once for a given image and then performs further analysis on the layer. Fast R-CNN also takes a shorter time to test on a new image! It’s test time is dominated by the time it takes to create region proposals.
+
+> ***Faster R-CNN***
+
+Faster R-CNN is an extension of the Fast R-CNN framework proposed by Shaoqing Ren, Kaiming He, Ross Girshick, and Jian Sun in 2015. It builds upon the Fast R-CNN architecture to further improve the efficiency and speed of object detection.
+
+## Lesson 8: YOLO
+
+In this lesson, we will learn about YOLO (You Only Look Once). Here are the topics we will discuss.
+
+- YOLO output
+- Sliding windows
+- CNN and sliding windows
+- Using a grid
+- Training on a grid
+- Generating bounding boxes
+- Intersection over Union (IoU)
+- Non-maximal suppression
+- Anchor boxes
+- YOLO Algorithm
+
+### 52. Sliding Window
+
+In computer vision, the sliding window technique is a method used for object detection and localization. It involves systematically scanning an image with a rectangular window of fixed size and aspect ratio, known as the sliding window, and applying a classifier to each window to determine whether it contains an object of interest.
+
+Here's how the sliding window technique works:
+
+52.1. Window Generation: The process begins by dividing the input image into a grid of overlapping or non-overlapping rectangular windows of a predefined size and aspect ratio. These windows slide across the image in a systematic manner, covering all possible locations and scales.
+
+52.2. Feature Extraction: For each window position, a set of features is extracted to represent the contents of the window. These features can include color histograms, texture descriptors, gradient information, or more sophisticated features learned from deep convolutional neural networks (CNNs).
+
+52.3. Classification: Once the features are extracted, a classifier is applied to each window to determine whether it contains an object of interest or background. The classifier can be a simple binary classifier (e.g., SVM, logistic regression) or a more complex model capable of multi-class classification.
+
+52.4. Sliding Window Process: The sliding window process continues across the entire image, with each window position being evaluated by the classifier. Depending on the stride (step size) used for window movement, overlapping windows may be processed multiple times, leading to redundant computations.
+
+52.5. Post-processing: After evaluating all windows, post-processing steps such as non-maximum suppression (NMS) may be applied to eliminate redundant detections and refine the final bounding boxes of detected objects.
+
+### 53. In-Depth Explanation of Bounding Box Generation in YOLO
+
+Understanding YOLO's Approach
+
+> ***Grid-Based Detection: ***
+
+- YOLO divides the input image into a fine grid. Each cell in this grid predicts a certain number of bounding boxes.
+
+- Every bounding box prediction includes the coordinates (center x, center y, width, height), an objectness score, and class probabilities.
+
+> ***Bounding Box Prediction: ***
+
+- The network outputs a tensor where each cell in the grid contributes to a set of bounding boxes.
+
+- These bounding boxes are predicted relative to the grid cells and are scaled using predefined dimensions known as anchor boxes.
+
+> ***Anchor Boxes***
+
+- Role and Importance: Anchor boxes are predefined boxes of various aspect ratios and sizes that capture the scale and aspect ratio of specific object classes.
+
+- They enable the detection of multiple objects per grid cell and objects of different shapes and sizes.
+
+> ***Matching and Learning: ***
+
+- During training, each ground truth box is matched with an anchor box that best overlaps with it.
+
+- The network then learns to adjust these anchor boxes to fit the actual object dimensions in the training data.
+
+> ***Non-Maximum Suppression***
+
+Resolving Overlapping Boxes:
+
+- YOLO often predicts multiple boxes for the same object. Non-maximum suppression (NMS) is used to resolve this by keeping only the most probable bounding box.
+
+- NMS works by first selecting the box with the highest objectness score and then eliminating all boxes that have a high IoU (Intersection over Union) with this box.
+
+> ***Multi-Scale Predictions***
+
+Detecting Objects of Various Sizes:
+
+- YOLO makes predictions at different scales, which is crucial for detecting both small and large objects effectively.
+- This is achieved by upsampling feature maps and merging them with feature maps from earlier layers, allowing the network to make predictions based on a rich set of features.
+
+> ***Fine-Tuning YOLO***
+
+Why Fine-Tuning is Necessary:
+
+- Fine-tuning YOLO is crucial when applying it to a specific domain (like medical imaging or aerial surveillance) where the types of objects and the visual context may differ significantly from the data on which YOLO was originally trained.
+
+Steps for Fine-Tuning:
+
+- Dataset Preparation: Prepare a dataset with annotated images relevant to the specific task.
+- Parameter Adjustments: Adjust the number of classes, anchor box dimensions, and other network parameters to suit the new dataset.
+- Training Process: Start training with pre-trained weights (transfer learning) and continue the training process to refine the weights for the new specific task.
+- Hyperparameter Tuning: Experiment with learning rates, batch sizes, and other hyperparameters for optimal performance on the new dataset.
+
+> ***Challenges and Limitations***
+
+Balance Between Speed and Accuracy:
+
+- YOLO's design prioritizes speed, which can sometimes lead to a trade-off in terms of accuracy, especially for small objects or objects with unusual aspect ratios.
+
+Resource Intensity for Training: 
+
+- Fine-tuning and training YOLO on a new dataset can be resource-intensive, requiring significant computational power.
